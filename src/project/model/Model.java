@@ -15,11 +15,12 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 public class Model {
-	public static String imageFormatList[] = {"ANI", "BMP", "CAL", "FAX", "GIF", "IMG", "JBG", "JPE", "JPEG", "JPG", "MAC", "PBM", "PCD", "PCX", "PCT", "PGM", "PNG", "PPM", "PSD", "RAS", "TGA", "TIFF", "WMF"};
+	public static String imageFormatList[] = {"BMP", "GIF", "IMG", "JPEG", "JPG", "PNG", "TIFF"};
 	private String URL;
 	private ArrayList<String> imageFormats;
 	private int minWidth;
 	private int minHeight;
+	private int progress;
 	
 	/**
 	 * Constructor for class Image Saver..
@@ -29,6 +30,7 @@ public class Model {
 		this.imageFormats = new ArrayList<String>();
 		this.minWidth = 100;
 		this.minHeight = 100;
+		this.progress = 0;
 	}
 
 	public void setValues(String URL, ArrayList<String> imageFormats, int minWidth, int minHeight) {
@@ -44,6 +46,9 @@ public class Model {
 	 * @throws IOException
 	 */
 	public void saveImages() throws IOException {
+		//Reset progress.
+		this.progress = 0;
+		
 		//Get HTML from URL.
 		Document doc = connectAndGetHTML(this.URL);
 		
@@ -73,12 +78,17 @@ public class Model {
 				file.createNewFile();
 				//Save image.
 				ImageIO.write(image, imageFormat, file);
-				
+				//Update progress.
+				this.progress = (100*i)/imagesURLs.size();
 			}
 		}
-
+		this.progress = 100;
 	}
 
+	public int getProgress(){
+		return this.progress;
+	}
+	
 	/**
 	 * Connect to URL and get HTML in a document.
 	 * @return Document with HTML.

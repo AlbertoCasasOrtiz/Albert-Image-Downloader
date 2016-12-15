@@ -1,5 +1,6 @@
 package project.view;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -16,6 +17,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 
 import project.model.Model;
@@ -31,12 +33,15 @@ public class View extends JFrame{
 	private JLabel labelMinWidth;
 	private JLabel labelMinHeight;
 	private JLabel labelURL;
+	private JLabel labelProgress;
 	
 	private JTextField textFieldMinWidth;
 	private JTextField textFieldMinHeight;
 	private JTextField textFieldURL;
 	
 	private JButton buttonStart;
+	
+	private JProgressBar progressBar;
 	
 	private Model model;
 	
@@ -46,7 +51,7 @@ public class View extends JFrame{
 		
 		this.initializeComponents();
 		
-		this.setSize(new Dimension(600, 300));
+		this.setSize(new Dimension(350, 250));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLayout(this.layoutGbc);
 		this.setResizable(false);
@@ -66,12 +71,16 @@ public class View extends JFrame{
 		this.labelMinWidth = new JLabel("Min. Width");
 		this.labelMinHeight = new JLabel("Min. Height");
 		this.labelURL = new JLabel("URL");
+		this.labelProgress = new JLabel("0 %");
 		
 		this.textFieldMinWidth = new JTextField("100");
 		this.textFieldMinHeight = new JTextField("100");
 		this.textFieldURL = new JTextField();
 		
 		this.buttonStart = new JButton("Start Download");
+
+		this.progressBar = new JProgressBar(0, 100);
+		this.progressBar.setForeground(Color.GREEN);
 	}
 
 	private void locateElements(){
@@ -90,6 +99,11 @@ public class View extends JFrame{
 		this.constraintsGbc.weightx = 1.0; this.constraintsGbc.weighty = 0.0;	
 		this.constraintsGbc.gridx = 0; this.constraintsGbc.gridy = 2;
 		this.add(this.panelMinParameters(), this.constraintsGbc);
+
+		this.constraintsGbc.fill = GridBagConstraints.HORIZONTAL;
+		this.constraintsGbc.weightx = 1.0; this.constraintsGbc.weighty = 0.0;	
+		this.constraintsGbc.gridx = 0; this.constraintsGbc.gridy = 3;
+		this.add(this.panelProgress(), this.constraintsGbc);
 	}
 	
 	private JPanel panelInputURL(){
@@ -113,11 +127,13 @@ public class View extends JFrame{
 		gbc.weightx = 0.0; gbc.weighty = 0.0;	
 		gbc.gridx = 2; gbc.gridy = 0;
 		panel.add(this.buttonStart, gbc);
+		
+		
 		return panel;
 	}
 	
 	private JPanel panelSelectImageFormats(){
-		JPanel panel = new JPanel(new GridLayout(6, 4));
+		JPanel panel = new JPanel(new GridLayout(3, 3));
 		panel.setBorder(BorderFactory.createTitledBorder("Image Formats"));
 		for(int i = 0; i < Model.imageFormatList.length; i++){
 			this.imageCheckBox.add(new JCheckBox(Model.imageFormatList[i]));
@@ -156,6 +172,26 @@ public class View extends JFrame{
 		return panel;
 	}
 	
+	public JPanel panelProgress(){
+		JPanel panel = new JPanel(new GridBagLayout());
+		
+		GridBagConstraints gbc = new GridBagConstraints();
+		
+		gbc.insets = new Insets(5, 5, 5, 5);
+		
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.weightx = 1.0; gbc.weighty = 0.0;	
+		gbc.gridx = 0; gbc.gridy = 0;
+		panel.add(this.progressBar, gbc);
+		
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.weightx = 0.0; gbc.weighty = 0.0;	
+		gbc.gridx = 1; gbc.gridy = 0;
+		panel.add(this.labelProgress, gbc);
+		
+		return panel;
+	}
+	
 	private void listener(){
 		this.buttonStart.addActionListener(new ActionListener() {
 			
@@ -168,6 +204,8 @@ public class View extends JFrame{
 					public void run() {
 						buttonStart.setEnabled(false);
 						
+						progressBar.setValue(0);
+						
 						ArrayList<String> imageFormats = new ArrayList<String>();
 						
 						for(int i = 0; i < imageCheckBox.size(); i++){
@@ -176,6 +214,8 @@ public class View extends JFrame{
 						}
 						
 						model.setValues(textFieldURL.getText(), imageFormats, Integer.parseInt(textFieldMinWidth.getText()), Integer.parseInt(textFieldMinHeight.getText()));
+
+						progressUpdater();
 						
 						try {
 							model.saveImages();
@@ -192,5 +232,27 @@ public class View extends JFrame{
 				
 			}
 		});
+	}
+	
+	public void progressUpdater(){
+		Thread thread = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				while(progressBar.getValue() != 100){
+					int progress = model.getProgress();
+					progressBar.setValue(progress);
+					labelProgress.setText(progress + " %");
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+		
+		thread.start();
 	}
 }
