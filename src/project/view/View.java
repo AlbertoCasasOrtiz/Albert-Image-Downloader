@@ -49,7 +49,8 @@ public class View extends JFrame{
 		this.setSize(new Dimension(600, 300));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLayout(this.layoutGbc);
-
+		this.setResizable(false);
+		this.setLocationRelativeTo(null);
 		this.locateElements();
 		
 		this.listener();
@@ -70,7 +71,7 @@ public class View extends JFrame{
 		this.textFieldMinHeight = new JTextField("100");
 		this.textFieldURL = new JTextField();
 		
-		this.buttonStart = new JButton("Start");
+		this.buttonStart = new JButton("Start Download");
 	}
 
 	private void locateElements(){
@@ -92,10 +93,26 @@ public class View extends JFrame{
 	}
 	
 	private JPanel panelInputURL(){
-		JPanel panel = new JPanel(new GridLayout(1, 3));
-		panel.add(this.labelURL);
-		panel.add(this.textFieldURL);
-		panel.add(this.buttonStart);
+		JPanel panel = new JPanel(new GridBagLayout());
+		
+		GridBagConstraints gbc = new GridBagConstraints();
+		
+		gbc.insets = new Insets(5, 5, 5, 5);
+		
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.weightx = 0.0; gbc.weighty = 0.0;	
+		gbc.gridx = 0; gbc.gridy = 0;
+		panel.add(this.labelURL, gbc);
+
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.weightx = 1.0; gbc.weighty = 0.0;	
+		gbc.gridx = 1; gbc.gridy = 0;
+		panel.add(this.textFieldURL, gbc);
+
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.weightx = 0.0; gbc.weighty = 0.0;	
+		gbc.gridx = 2; gbc.gridy = 0;
+		panel.add(this.buttonStart, gbc);
 		return panel;
 	}
 	
@@ -110,11 +127,32 @@ public class View extends JFrame{
 	}
 	
 	private JPanel panelMinParameters(){
-		JPanel panel = new JPanel(new GridLayout(1, 4));
-		panel.add(this.labelMinWidth);
-		panel.add(this.textFieldMinWidth);
-		panel.add(this.labelMinHeight);
-		panel.add(this.textFieldMinHeight);
+		JPanel panel = new JPanel(new GridBagLayout());
+		
+		GridBagConstraints gbc = new GridBagConstraints();
+		
+		gbc.insets = new Insets(5, 5, 5, 5);
+		
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.weightx = 0.0; gbc.weighty = 0.0;	
+		gbc.gridx = 0; gbc.gridy = 0;
+		panel.add(this.labelMinWidth, gbc);
+		
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.weightx = 1.0; gbc.weighty = 0.0;	
+		gbc.gridx = 1; gbc.gridy = 0;
+		panel.add(this.textFieldMinWidth, gbc);
+		
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.weightx = 0.0; gbc.weighty = 0.0;	
+		gbc.gridx = 2; gbc.gridy = 0;
+		panel.add(this.labelMinHeight, gbc);
+		
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.weightx = 1.0; gbc.weighty = 0.0;	
+		gbc.gridx = 3; gbc.gridy = 0;
+		panel.add(this.textFieldMinHeight, gbc);
+		
 		return panel;
 	}
 	
