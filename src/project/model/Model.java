@@ -46,6 +46,7 @@ public class Model {
 
 	/**
 	 * Constructor for class Image Saver.
+	 * 
 	 * @param URL URL of the page containing images.
 	 * @param imageFormats Image formats to be downloaded.
 	 * @param minWidth Minimum width of the images.
@@ -61,7 +62,8 @@ public class Model {
 	/**
 	 * Save images from an URL with determined formats and minimum size.
 	 * 
-	 * @throws IOException
+	 * @throws IOException Throws IOException.
+	 * @throws IllegalArgumentException Throws IllegalArgumentException.
 	 */
 	public void saveImages() throws IOException, IllegalArgumentException {
 		//Reset progress.
@@ -109,9 +111,13 @@ public class Model {
 	
 	/**
 	 * Connect to URL and get HTML in a document.
+	 * 
+	 * @param URL URL of the web.
+	 * 
 	 * @return Document with HTML.
-	 * @throws IOException
-	 * @throws IllegalArgumentException
+	 * 
+	 * @throws IOException Throws IOException.
+	 * @throws IllegalArgumentException Throws IllegalArgumentException.
 	 */
 	public static Document connectAndGetHTML(String URL) throws IOException, IllegalArgumentException{
 		return Jsoup.connect(URL).userAgent("Google").get();
@@ -119,9 +125,12 @@ public class Model {
 	
 	/**
 	 * Select all URLs of images an save it in an array.
+	 * 
 	 * @param doc Document with HTML.
+	 * 
 	 * @return ArrayList with URLs.
-	 * @throws MalformedURLException 
+	 * 
+	 * @throws MalformedURLException Throws MalformedURLException.
 	 */
 	public ArrayList<URL> selectImagesFromDocument(Document doc) throws MalformedURLException{
 		ArrayList<URL> urls = new ArrayList<URL>();
@@ -143,7 +152,9 @@ public class Model {
 	
 	/**
 	 * Conditions to save the image.
+	 * 
 	 * @param image Image to be tested.
+	 * 
 	 * @return Return true if the image satisfy the condition.
 	 */
 	private boolean saveConditions(RenderedImage image){

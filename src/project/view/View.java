@@ -67,6 +67,7 @@ public class View extends JFrame{
 	
 	/**
 	 * Constructor of the class View.
+	 * 
 	 * @param model Model of the MVC.
 	 */
 	public View(Model model){
@@ -138,6 +139,7 @@ public class View extends JFrame{
 	
 	/**
 	 * Locate elements of the panel of input data.
+	 * 
 	 * @return Panel with located elements.
 	 */
 	private JPanel panelInputURL(){
@@ -168,6 +170,7 @@ public class View extends JFrame{
 	
 	/**
 	 * Locate checkboxes of image formats.
+	 * 
 	 * @return Panel with located elements.
 	 */
 	private JPanel panelSelectImageFormats(){
@@ -182,6 +185,7 @@ public class View extends JFrame{
 	
 	/**
 	 * Locate elements of parameters.
+	 * 
 	 * @return Panel with located elements.
 	 */
 	private JPanel panelMinParameters(){
@@ -216,6 +220,7 @@ public class View extends JFrame{
 	
 	/**
 	 * Locate elements of the progress panel.
+	 * 
 	 * @return Panel with located elements.
 	 */
 	private JPanel panelProgress(){
