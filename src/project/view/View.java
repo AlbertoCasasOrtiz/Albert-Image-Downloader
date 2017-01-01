@@ -16,37 +16,61 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 
 import project.model.Model;
 
+/**
+ * View of the MVC from the Albert Image Downloader Project.
+ * 
+ * @author Alberto Casas Ortiz.
+ */
 public class View extends JFrame{
 	/** Default serial version UID. */
 	private static final long serialVersionUID = 1L;
+	
+	/** ArrayList with checkboxes of image formats. */
 	private ArrayList<JCheckBox> imageCheckBox;
 	
+	/** GridBagConstraints of the layout. */
 	private GridBagConstraints constraintsGbc;
+	/** Layout of the frame. */
 	private GridBagLayout layoutGbc;
 	
+	/** Label of minimum width text field. */
 	private JLabel labelMinWidth;
+	/** Label of minimum height text field. */
 	private JLabel labelMinHeight;
+	/** Label of URL text field. */
 	private JLabel labelURL;
+	/** Label of progress bar. */
 	private JLabel labelProgress;
 	
+	/** Text field of min width. */
 	private JTextField textFieldMinWidth;
+	/** Text field of min height. */
 	private JTextField textFieldMinHeight;
+	/** Text field of URL. */
 	private JTextField textFieldURL;
 	
+	/** Button of start download. */
 	private JButton buttonStart;
 	
+	/** Progress bar of download. */
 	private JProgressBar progressBar;
 	
+	/** Model of the MVC. */
 	private Model model;
 	
+	/**
+	 * Constructor of the class View.
+	 * @param model Model of the MVC.
+	 */
 	public View(Model model){
-		super("Image Downloader");
+		super("Albert Image Downloader");
 		this.model = model;
 		
 		this.initializeComponents();
@@ -63,6 +87,9 @@ public class View extends JFrame{
 		this.setVisible(true);
 	}
 	
+	/**
+	 * Initialize components of GUI.
+	 */
 	private void initializeComponents(){
 		this.imageCheckBox = new ArrayList<JCheckBox>();
 		this.layoutGbc = new GridBagLayout();
@@ -83,6 +110,9 @@ public class View extends JFrame{
 		this.progressBar.setForeground(Color.GREEN);
 	}
 
+	/**
+	 * Locate elements in the GUI.
+	 */
 	private void locateElements(){
 		this.constraintsGbc.insets = new Insets(5, 5, 5, 5);
 		this.constraintsGbc.fill = GridBagConstraints.HORIZONTAL;
@@ -106,6 +136,10 @@ public class View extends JFrame{
 		this.add(this.panelProgress(), this.constraintsGbc);
 	}
 	
+	/**
+	 * Locate elements of the panel of input data.
+	 * @return Panel with located elements.
+	 */
 	private JPanel panelInputURL(){
 		JPanel panel = new JPanel(new GridBagLayout());
 		
@@ -132,6 +166,10 @@ public class View extends JFrame{
 		return panel;
 	}
 	
+	/**
+	 * Locate checkboxes of image formats.
+	 * @return Panel with located elements.
+	 */
 	private JPanel panelSelectImageFormats(){
 		JPanel panel = new JPanel(new GridLayout(3, 3));
 		panel.setBorder(BorderFactory.createTitledBorder("Image Formats"));
@@ -142,6 +180,10 @@ public class View extends JFrame{
 		return panel;
 	}
 	
+	/**
+	 * Locate elements of parameters.
+	 * @return Panel with located elements.
+	 */
 	private JPanel panelMinParameters(){
 		JPanel panel = new JPanel(new GridBagLayout());
 		
@@ -172,7 +214,11 @@ public class View extends JFrame{
 		return panel;
 	}
 	
-	public JPanel panelProgress(){
+	/**
+	 * Locate elements of the progress panel.
+	 * @return Panel with located elements.
+	 */
+	private JPanel panelProgress(){
 		JPanel panel = new JPanel(new GridBagLayout());
 		
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -192,6 +238,9 @@ public class View extends JFrame{
 		return panel;
 	}
 	
+	/**
+	 * Listeners of the elements in the GUI.
+	 */
 	private void listener(){
 		this.buttonStart.addActionListener(new ActionListener() {
 			
@@ -213,17 +262,25 @@ public class View extends JFrame{
 								imageFormats.add(imageCheckBox.get(i).getText());
 						}
 						
-						model.setValues(textFieldURL.getText(), imageFormats, Integer.parseInt(textFieldMinWidth.getText()), Integer.parseInt(textFieldMinHeight.getText()));
-
-						progressUpdater();
+						if(!imageFormats.isEmpty()){
+							model.setValues(textFieldURL.getText(), imageFormats, Integer.parseInt(textFieldMinWidth.getText()), Integer.parseInt(textFieldMinHeight.getText()));
 						
-						try {
-							model.saveImages();
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
+							progressUpdater();
+							
+							try {
+								model.saveImages();
+							} catch (IOException e1) {
+								JOptionPane.showMessageDialog(new JFrame(), "Error of IO in the connection.", "Warning", JOptionPane.WARNING_MESSAGE);
+							} catch (IllegalArgumentException e) {
+								JOptionPane.showMessageDialog(new JFrame(), "Error in format of URL.", "Warning", JOptionPane.WARNING_MESSAGE);
+							}
+							
+							
+						}else{
+							if(imageFormats.isEmpty())
+								JOptionPane.showMessageDialog(new JFrame(), "Choose any image format.", "Warning", JOptionPane.WARNING_MESSAGE);
 						}
-						
+
 						buttonStart.setEnabled(true);
 					}
 				});
@@ -234,7 +291,10 @@ public class View extends JFrame{
 		});
 	}
 	
-	public void progressUpdater(){
+	/**
+	 * Update progress bar using information of the model.
+	 */
+	private void progressUpdater(){
 		Thread thread = new Thread(new Runnable() {
 			
 			@Override
@@ -246,8 +306,7 @@ public class View extends JFrame{
 					try {
 						Thread.sleep(100);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						JOptionPane.showMessageDialog(new JFrame(), "Internal application error, please restart application.", "Warning", JOptionPane.WARNING_MESSAGE);
 					}
 				}
 			}

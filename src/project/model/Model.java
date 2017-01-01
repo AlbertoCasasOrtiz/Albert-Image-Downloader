@@ -14,16 +14,27 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+/**
+ * Class model of the MVC from the Albert Image Downloader.
+ * 
+ * @author Alberto Casas Ortiz.
+ */
 public class Model {
+	/** Admitted formats of images. */
 	public static String imageFormatList[] = {"BMP", "GIF", "IMG", "JPEG", "JPG", "PNG", "TIFF"};
+	/** URL of the origin web. */
 	private String URL;
+	/** Array containing selected image formats. */
 	private ArrayList<String> imageFormats;
+	/** Minimum width of images. */
 	private int minWidth;
+	/** Minimum height of images. */
 	private int minHeight;
+	/** Progress of the download. */
 	private int progress;
 	
 	/**
-	 * Constructor for class Image Saver..
+	 * Constructor for class Image Saver.
 	 */
 	public Model() {
 		this.URL = "";
@@ -33,6 +44,13 @@ public class Model {
 		this.progress = 0;
 	}
 
+	/**
+	 * Constructor for class Image Saver.
+	 * @param URL URL of the page containing images.
+	 * @param imageFormats Image formats to be downloaded.
+	 * @param minWidth Minimum width of the images.
+	 * @param minHeight Minimum height of the images.
+	 */
 	public void setValues(String URL, ArrayList<String> imageFormats, int minWidth, int minHeight) {
 		this.URL = URL;
 		this.imageFormats = imageFormats;
@@ -45,7 +63,7 @@ public class Model {
 	 * 
 	 * @throws IOException
 	 */
-	public void saveImages() throws IOException {
+	public void saveImages() throws IOException, IllegalArgumentException {
 		//Reset progress.
 		this.progress = 0;
 		
@@ -93,9 +111,10 @@ public class Model {
 	 * Connect to URL and get HTML in a document.
 	 * @return Document with HTML.
 	 * @throws IOException
+	 * @throws IllegalArgumentException
 	 */
-	public static Document connectAndGetHTML(String URL) throws IOException{
-		return Jsoup.connect(URL).userAgent("Mozilla").get();
+	public static Document connectAndGetHTML(String URL) throws IOException, IllegalArgumentException{
+		return Jsoup.connect(URL).userAgent("Google").get();
 	}
 	
 	/**
