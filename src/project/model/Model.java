@@ -119,7 +119,7 @@ public class Model {
 	 * @throws IOException Throws IOException.
 	 * @throws IllegalArgumentException Throws IllegalArgumentException.
 	 */
-	public static Document connectAndGetHTML(String URL) throws IOException, IllegalArgumentException{
+	public Document connectAndGetHTML(String URL) throws IOException, IllegalArgumentException{
 		return Jsoup.connect(URL).userAgent("Google").get();
 	}
 	
