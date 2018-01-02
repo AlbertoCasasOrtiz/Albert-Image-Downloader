@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.1.12" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
-  <class id="1" language="java" name="project.controller.Controller" project="Albert Image Downloader" 
+  <class id="1" language="java" name="Controller" project="Albert Image Downloader"
     file="/Albert Image Downloader/src/project/controller/Controller.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="256" y="157"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -10,7 +10,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="project.model.Model" project="Albert Image Downloader" 
+  <class id="2" language="java" name="Model" project="Albert Image Downloader"
     file="/Albert Image Downloader/src/project/model/Model.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="304" width="356" x="393" y="-11"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -19,7 +19,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="project.view.View" project="Albert Image Downloader" 
+  <class id="3" language="java" name="View" project="Albert Image Downloader"
     file="/Albert Image Downloader/src/project/view/View.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1073" y="139"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 

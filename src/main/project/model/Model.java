@@ -1,4 +1,4 @@
-package project.model;
+package main.project.model;
 
 import java.awt.image.RenderedImage;
 import java.io.File;
@@ -10,12 +10,12 @@ import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 
+import main.project.exception.FileNotCreatedException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import project.exception.DirectoryNotCreatedException;
-import project.exception.FileNotCreatedException;
+import main.project.exception.DirectoryNotCreatedException;
 
 /**
  * Class model of the MVC from the Albert Image Downloader.

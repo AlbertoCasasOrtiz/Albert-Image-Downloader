@@ -1,4 +1,4 @@
-package project.exception;
+package main.project.exception;
 
 /**
  * Exception thrown when a file has not been created properly.

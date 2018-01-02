@@ -1,7 +1,7 @@
-package project.controller;
+package main.project.controller;
 
-import project.model.Model;
-import project.view.View;
+import main.project.model.Model;
+import main.project.view.View;
 
 /**
  * Class controller of the MVC from the project Albert Image Downloader.

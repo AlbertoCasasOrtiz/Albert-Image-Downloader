@@ -1,4 +1,4 @@
-package project.view;
+package main.project.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -21,9 +21,9 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 
-import project.exception.DirectoryNotCreatedException;
-import project.exception.FileNotCreatedException;
-import project.model.Model;
+import main.project.exception.FileNotCreatedException;
+import main.project.exception.DirectoryNotCreatedException;
+import main.project.model.Model;
 
 /**
  * View of the MVC from the Albert Image Downloader Project.
