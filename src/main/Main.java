@@ -1,6 +1,6 @@
 package main;
 
-import project.controller.Controller;
+import controller.Controller;
 
 /**
  * Main class from the project Albert Image Downloader.
