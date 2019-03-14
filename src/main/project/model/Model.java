@@ -25,7 +25,7 @@ import main.project.exception.DirectoryNotCreatedException;
  */
 public class Model {
 	/** Admitted formats of images. */
-	public static String imageFormatList[] = {"BMP", "GIF", "IMG", "JPEG", "JPG", "PNG", "TIFF"};
+	public static String[] imageFormatList = {"BMP", "GIF", "IMG", "JPEG", "JPG", "PNG", "TIFF"};
 	/** URL of the origin web. */
 	private String URL;
 	/** Array containing selected image formats. */
@@ -42,7 +42,7 @@ public class Model {
 	 */
 	public Model() {
 		this.URL = "";
-		this.imageFormats = new ArrayList<String>();
+		this.imageFormats = new ArrayList<>();
 		this.minWidth = 100;
 		this.minHeight = 100;
 		this.progress = 0;
@@ -111,10 +111,10 @@ public class Model {
 						if (file.createNewFile()) {
 							//Save image.
 							ImageIO.write(image, imageFormat, file);
-							//Update progress.
-							this.progress = (100 * i) / imagesURLs.size();
 						} else throw new FileNotCreatedException(file.getName());
 					}
+					//Update progress.
+					this.progress = (100 * i) / imagesURLs.size();
 				}
 			}
 			this.progress = 100;
@@ -149,7 +149,7 @@ public class Model {
 	 * @throws MalformedURLException Throws MalformedURLException.
 	 */
 	private ArrayList<URL> selectImagesFromDocument(Document doc) throws MalformedURLException{
-		ArrayList<URL> urls = new ArrayList<URL>();
+		ArrayList<URL> urls = new ArrayList<>();
 		Elements images = new Elements();
 		
 		//Get images from all image formats.
