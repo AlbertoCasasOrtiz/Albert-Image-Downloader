@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -71,17 +72,24 @@ public class Model {
 	public void saveImages() throws IOException, IllegalArgumentException, DirectoryNotCreatedException, FileNotCreatedException {
 		//Reset progress.
 		this.progress = 0;
-		
+
 		//Get HTML from URL.
 		Document doc = connectAndGetHTML(this.URL);
-		
+
 		//Get URLs of images in HTML code.
 		ArrayList<URL> imagesURLs = selectImagesFromDocument(doc);
 
 		//Create file which will contain the images.
 		File file = new File("images//");
 
-		if(file.mkdirs()) {
+		//Test if path exists. If it does not exist, create the path.
+		boolean proceed = true;
+		if (Files.notExists(file.toPath())) {
+			proceed = file.mkdirs();
+		}
+
+		//If there was a problem creating the path, don't continue and throw exception.
+		if(proceed) {
 			//Download images.
 			RenderedImage image;
 			for (int i = 0; i < imagesURLs.size(); i++) {
@@ -98,13 +106,15 @@ public class Model {
 				if (this.saveConditions(image)) {
 					//Create name of the image.
 					file = new File("images//" + imageName);
-
-					if(file.createNewFile()) {
-                        //Save image.
-                        ImageIO.write(image, imageFormat, file);
-                        //Update progress.
-                        this.progress = (100 * i) / imagesURLs.size();
-                    } else throw new FileNotCreatedException(file.getName());
+					//Test if file exist and never overwrite.
+					if (Files.notExists(file.toPath())) {
+						if (file.createNewFile()) {
+							//Save image.
+							ImageIO.write(image, imageFormat, file);
+							//Update progress.
+							this.progress = (100 * i) / imagesURLs.size();
+						} else throw new FileNotCreatedException(file.getName());
+					}
 				}
 			}
 			this.progress = 100;
